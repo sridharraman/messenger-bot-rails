@@ -11,8 +11,7 @@ module Messenger
           request.body = data.to_json
           response = http.request(request)
           body = JSON(response.body)
-          response_hash = response.to_hash
-          return { ret: body["error"].nil?, body: body, response_hash: response_hash }
+          return { ret: body["error"].nil?, body: body, headers: response.to_hash }
         rescue => e
           raise e 
         end
@@ -27,8 +26,7 @@ module Messenger
           request["Content-Type"] = "application/json"
           response = http.request(request)
           body = JSON(response.body)
-          response_hash = response.to_hash
-          return { ret: body["error"].nil?, body: body, response_hash: response_hash }
+          return { ret: body["error"].nil?, body: body, headers: response.to_hash }
         rescue => e
           raise e 
         end
