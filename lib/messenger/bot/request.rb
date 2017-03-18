@@ -11,7 +11,7 @@ module Messenger
           request.body = data.to_json
           response = http.request(request)
           body = JSON(response.body)
-          headers = response.to_hash
+          headers = response.to_hash[:headers]
           return { ret: body["error"].nil?, body: body, headers: headers }
         rescue => e
           raise e 
@@ -27,7 +27,7 @@ module Messenger
           request["Content-Type"] = "application/json"
           response = http.request(request)
           body = JSON(response.body)
-          headers = response.to_hash
+          headers = response.to_hash[:headers]
           return { ret: body["error"].nil?, body: body, headers: headers }
         rescue => e
           raise e 
