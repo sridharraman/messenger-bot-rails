@@ -11,7 +11,8 @@ module Messenger
           request.body = data.to_json
           response = http.request(request)
           body = JSON(response.body)
-          return { ret: body["error"].nil?, body: body }
+          headers = response.headers
+          return { ret: body["error"].nil?, body: body, headers: headers }
         rescue => e
           raise e 
         end
@@ -26,7 +27,8 @@ module Messenger
           request["Content-Type"] = "application/json"
           response = http.request(request)
           body = JSON(response.body)
-          return { ret: body["error"].nil?, body: body }
+          headers = response.headers
+          return { ret: body["error"].nil?, body: body, headers: headers }
         rescue => e
           raise e 
         end
