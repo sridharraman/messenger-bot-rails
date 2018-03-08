@@ -29,6 +29,8 @@ module Messenger
               send(:delivery, event, sender)
             elsif event["optin"]
               send(:optin, event, sender)
+            elsif event["referral"]
+              send(:referral,event,sender)
             end
           end
         end
