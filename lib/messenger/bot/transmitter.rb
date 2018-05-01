@@ -6,10 +6,15 @@ module Messenger
       end
 
       def reply(data)
-        data = init_data.merge({ message: data })
+        data = init_data.merge({ messaging_type:"RESPONSE", message: data })
         Messenger::Bot::Request.post("https://graph.facebook.com/v2.6/me/messages?access_token=#{Messenger::Bot::Config.access_token}", data)
       end
-
+      
+      def send_update(data)
+        data = init_data.merge({ messaging_type:"UPDATE", message: data })
+        Messenger::Bot::Request.post("https://graph.facebook.com/v2.6/me/messages?access_token=#{Messenger::Bot::Config.access_token}", data)
+      end
+      
       def get_profile(fields=nil)
         fields ||= [:locale, :timezone, :gender, :first_name, :last_name, :profile_pic]
         Messenger::Bot::Request.get("https://graph.facebook.com/v2.6/#{@sender_id}?fields=#{fields.join(",")}&access_token=#{Messenger::Bot::Config.access_token}")
