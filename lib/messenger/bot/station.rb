@@ -14,7 +14,7 @@ module Messenger
         Messenger::Bot::Receiver.share(params)
         params["entry"].each do |entry|
           messaging_events = entry["messaging"]
-          if messging_events
+          if messaging_events
             messaging_events.each_with_index do |event, key|
               sender = Messenger::Bot::Transmitter.new(event["sender"]["id"])
               if event["message"] && !defined?(message).nil? && event["message"]["quick_reply"].nil?
