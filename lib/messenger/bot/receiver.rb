@@ -3,14 +3,16 @@ module Messenger
     class Receiver
       def self.share(data)
         messaging_events = data["entry"].first["messaging"]
-        messaging_events.each_with_index do |event, key|
-          if event["message"] && !defined?(message).nil?
-            self.class.send(:message, event)
-          elsif event["postback"] && !defined?(postback).nil?
-            self.class.send(:postback, event)
-          elsif event["delivery"] && !defined?(delivery).nil?
-            self.class.send(:delivery, event)
-          end 
+        if messaging_events # skip messages received on standby mode in handover protocol (bug in FBMsgr causes postback buttons to send this also even if not in standby mode)
+          messaging_events.each_with_index do |event, key|
+            if event["message"] && !defined?(message).nil?
+              self.class.send(:message, event)
+            elsif event["postback"] && !defined?(postback).nil?
+              self.class.send(:postback, event)
+            elsif event["delivery"] && !defined?(delivery).nil?
+              self.class.send(:delivery, event)
+            end 
+          end
         end 
       end
 
