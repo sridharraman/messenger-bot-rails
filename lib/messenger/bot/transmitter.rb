@@ -5,19 +5,22 @@ module Messenger
         @sender_id = sender
       end
 
-      def reply(data)
+      def reply(data,eng_flag)
         data = init_data.merge({ messaging_type:"RESPONSE", message: data })
-        Messenger::Bot::Request.post("https://graph.facebook.com/v2.6/me/messages?access_token=#{Messenger::Bot::Config.access_token}", data)
+        access_token = eng_flag ? Messenger::Bot::Config.access_token : Messenger::Bot::Config.math_access_token
+        Messenger::Bot::Request.post("https://graph.facebook.com/v2.6/me/messages?access_token=#{access_token}", data)
       end
       
-      def send_update(data)
+      def send_update(data,eng_flag)
         data = init_data.merge({ messaging_type:"UPDATE", message: data })
-        Messenger::Bot::Request.post("https://graph.facebook.com/v2.6/me/messages?access_token=#{Messenger::Bot::Config.access_token}", data)
+        access_token = eng_flag ? Messenger::Bot::Config.access_token : Messenger::Bot::Config.math_access_token
+        Messenger::Bot::Request.post("https://graph.facebook.com/v2.6/me/messages?access_token=#{access_token}", data)
       end
       
-      def get_profile(fields=nil)
+      def get_profile(eng_flag,fields=nil)
         fields ||= [:locale, :timezone, :gender, :first_name, :last_name, :profile_pic]
-        Messenger::Bot::Request.get("https://graph.facebook.com/v2.6/#{@sender_id}?fields=#{fields.join(",")}&access_token=#{Messenger::Bot::Config.access_token}")
+        access_token = eng_flag ? Messenger::Bot::Config.access_token : Messenger::Bot::Config.math_access_token
+        Messenger::Bot::Request.get("https://graph.facebook.com/v2.6/#{@sender_id}?fields=#{fields.join(",")}&access_token=#{access_token}")
       end
 
       def action(sender_action=true)
