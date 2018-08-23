@@ -7,6 +7,8 @@ module Messenger
         attr_accessor :secret_token
 
         attr_accessor :validation_token
+        
+        attr_accessor :math_access_token
       end
     end
   end
