@@ -18,7 +18,7 @@ module Messenger
       end
       
       def get_profile(eng_flag,fields=nil)
-        fields ||= [:locale, :timezone, :gender, :first_name, :last_name, :profile_pic]
+        fields ||= [:first_name, :last_name, :profile_pic]
         access_token = eng_flag ? Messenger::Bot::Config.access_token : Messenger::Bot::Config.math_access_token
         Messenger::Bot::Request.get("https://graph.facebook.com/v2.6/#{@sender_id}?fields=#{fields.join(",")}&access_token=#{access_token}")
       end
